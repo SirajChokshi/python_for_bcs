@@ -15,3 +15,11 @@ print(my_tuple)
 # other than that, you can do everything with a tuple that you can do with a list
 # write some code below showing that the different things you learned to do for lists also works for tuples
 
+print(my_tuple)
+
+print(my_tuple[0])
+
+if 'bear' in my_tuple:
+	print('There is a bear in my tuple')
+else:
+	print('no bear')
