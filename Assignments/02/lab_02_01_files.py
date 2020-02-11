@@ -13,7 +13,7 @@ print()
 '''
     what is the difference between f.read() and f.readline()
 '''
-# your answer here
+# f.read() outputs the entire document as a string while f.readline() reads the document line by line
 print()
 print("Example 01")
 filename = 'test_file1.txt'
@@ -48,6 +48,7 @@ print()
     To see what this means, try adding each line to a list, and then printing the list
 '''
 # how are 01 & 02 different from 00?
+# 01 and 02 add an extra new line between each printed line
 
 print("Example 03")
 filename = 'test_file1.txt'
@@ -86,7 +87,7 @@ f = open(filename)
 for line in f:
     data = line.strip('\n')
     data = data.split(',')
-    print(data)
+    print(data[0])
 f.close()
 print()
 
@@ -96,4 +97,15 @@ for example, line.split(' ') splits on spaces, line.split('.') splits on periods
 an 'ri' that is encountered. test each of these examples on 'test_file2.txt' below. Strip works the same way.
 Experiment with stripping different characters and type in a comment block below how it works.
 '''
-# your code here
+
+# splits each line into a list of strings at the point on every 'a' character.
+# prints each element of line data as a list
+print("My Example/Experimentation")
+filename = 'test_file2.txt'
+f = open(filename)
+for line in f:
+    data = line.strip('\n')
+    data = data.split('a')
+    print(data)
+f.close()
+print()

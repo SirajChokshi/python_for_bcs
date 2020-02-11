@@ -20,8 +20,7 @@ The number, 10 in the example below, specifies the final number of spaces the st
 So in the example below, for lions, 3 spaces are added to animal, 5 to lions 4 to tigers, adn 5 to bears.
 """
 my_list = ["ANIMALS", "lions", "tigers", "bears"]
-for word in my_list:
-    print(word.rjust(10))
+ 
 print()
 
 """
@@ -52,4 +51,7 @@ number of {}, you get an error.
 You can use .format to do all kinds of formatting alterations on your variables.
 """
 # comment and explain what is happening below:
-print("{:10s}: {:0.3f}\n{:10s}: {:0.3f}\n".format(a, x/y, b, y/x))
+# 
+# The code below appends 10 spaces to variable a, shows 'x/y' to 3 decimal places,
+# and does the same to b and y/x respectively
+print("{:10s}: {:.3f}\n{:10s}: {:0.3f}\n".format(a, x/y, b, y/x))
