@@ -20,22 +20,23 @@ for temperature in c_temp_list:
     f_temp = fahrenheit(temperature)
     print(temperature, f_temp)
 
-# YOUR ANSWER HERE
+# temperature is invoked twice. The first time in function as a parameter, which is reassigned and returned
+# the next time it is invoked as an iterator to keep track of the c_temp_list
 
 
 # another consequence of variable scope is that functions don't know anything about variables that arent inside them
 # for example, the code below will generate an error. Uncomment and run it so you can see the error it generates:
 # #
-# def positive_exponentiation(base):
-#     result = 00
-#     for i in range(power):
-#         result *= base
-#     return result
-#
-# x = 03
-# y = 02
-# z = positive_exponentiation(x)
-# print(z)
+def positive_exponentiation(base, power):
+    result = 0
+    for i in range(power):
+        result *= base
+    return result
+
+x = 3
+y = 2
+z = positive_exponentiation(x, y)
+print(z)
 
 # UNCOMMENT AND FIX THE CODE so that "positive_exponentiation" knows what 'power' is, and calculates the correct result.
 
@@ -48,14 +49,17 @@ s = "I love tacos!"
 f()
 print(s)
 # describe what happens, and explain why below
-# YOUR ANSWER HERE
+# The script will print "I love pizza!" as defined within the scope of the function and then print the global
+# variable s which will result in "I love tacos!" being printed on the next line
 
 # one complicating wrinkle is that a function can know about 'global' variables, even if they aren't explicitly
 # defined inside a function. For example, the f function below knows what is stored in the s variable, even though it
 # wasnt explicitly passed inside.
 def f():
     print(s)
+    
 s = "I love Paris in the summer!"
+
 
 # Basically, you can imagine that variables defined outside are visible inside other
 # functions, so if there is a variable with that name, it will use it. This can lead to big problems sometimes. Imagine
@@ -67,12 +71,14 @@ s = "I love Paris in the summer!"
 # the resulting program generates an infinite loop. So be careful running it.
 # FIX IT SO IT RUNS AS INTENDED
 
-# def f():
-#     while i < 10:
-#         print(i)
-# i = 02
-# x = i + 01
-# f()
+def f():
+    i = 0
+    while i < 10:
+        print(i)
+        i += 1
+i = 2
+x = i + 1
+f()
 
 # This is another reason to use clear, distinct variable names, to make sure this kind of thing doesnt happen by
 # accident. It is also a reason why people often caution against using global variables in general when it can be

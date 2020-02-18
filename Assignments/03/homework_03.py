@@ -1,7 +1,6 @@
-
 def q1():
     # What is the difference between an argument and a parameter? Given an example.
-    your_answer = ""
+    your_answer = "A parameter is a the defined input value in the definition of a function. An argument is the value passed to the function in place of a parameter when the function is called."
     print("Question 00")
     print(your_answer)
 
@@ -16,7 +15,7 @@ def q2():
 
     print("Question 01")
     nonfruitful_function()
-    your_answer = ""
+    your_answer = "The silently returned value is None. print() itself is a nonfruitful function"
     print(your_answer)
 
 
@@ -32,7 +31,7 @@ def q3():
     # function1()
     # function2()
 
-    your_answer = ""
+    your_answer = "You cannot call function2() outside of the scope of function1() as it is not defined globally"
     print("Question 02")
     print(your_answer)
 
@@ -41,7 +40,7 @@ def q4():
     # below this function definition, there is a global variable defined. What about python's syntax makes it a
     # global variable? How would you make it a local variable to this function?
 
-    your_answer = ""
+    your_answer = "It is a global variable because it is aligned as far left as possible pulling it out of the scope of this function. Indenting the declaration would result in this being a local variable"
     print("Question 03")
     print(your_answer)
 x = 25
@@ -49,7 +48,7 @@ x = 25
 
 def q5():
     # What is an optional parameter in a python function, and how do you define one in a function definition?
-    your_answer = ""
+    your_answer = "Optional parameters are parameters that have a default value in case an argument is not passed. To define one you have to assign a value to a parameter in the function definition"
     print("Question 05")
     print(your_answer)
 
@@ -68,7 +67,7 @@ def q6():
             return min, max
 
     print("Question 06")
-    your_answer = ""
+    your_answer = "Finding the smallest and largest values in a list. The return value is discretely converted into a tuple and assigned to one value"
     my_list = [-6, 2, 5, 5, -1, 3]
     min_max = get_min_max(my_list)
     print(min_max)
@@ -79,7 +78,7 @@ def q7():
     # explain why it is valuable to make your code in terms functions. Give at least three specific examples from class
     # so far that take code you have written and why it would be better if it had been as a function instead of how we
     # did it originally.
-    your_answer = ""
+    your_answer = "1) When rewriting the big5 personality test we are able to reuse basic functions to speed up development and keep more organized code \n2) When writing the temperature conversion function we save time when using it because we can test it through calling it again rather than writing it as a script again. \n3) Other times, such as with loops, we experimented with modifying parameters line by line, but by defnining a function we could write more comparative tests in quicker time."
     print("Question 07")
     print(your_answer)
 
@@ -89,7 +88,21 @@ def q8():
     # calculates and returns the variance of those numbers. print
 
     print("Question 08")
-    variance = 0
+    
+    def getMean(vals):
+        sum = 0
+        for x in vals:
+            sum += x
+        return sum/len(vals)
+    
+    def getVariance(*vals):
+        output_list = []
+        sum = 0
+        mean = getMean(vals)
+        for x in vals:
+            sum += (x - mean)**2
+        return sum/len(vals)
+    variance = getVariance(0, 1, 1, 2, 3, 5, 7)
     print(variance)
 
 def q9():
@@ -97,29 +110,58 @@ def q9():
     # 'your_answer. Then, uncomment and fix the code so that it does not generate an error, prints out "yes" if the
     # input argument is "dog", prints out no otherwise, and returns either "yes" or "no" when the function is complete.
 
-    # def dog_identifier:
-    #     if x == "dog":
-    #         print("yes")
-    #     else:
-    #         print("no")
-    #
-    # input_string = input("Type Something: ")
-    # answer = dog_identifier(input_string)
+    def dog_identifier(x):
+        if x == "dog":
+            print("yes")
+        else:
+            print("no")
+    
+    input_string = input("Type Something: ")
+    answer = dog_identifier(input_string)
 
-    your_answer = ""
+    your_answer = "The function does not have any parameters even though it needs parameter 'x' to compare it against string 'dog'"
     print("Question 09")
     print(your_answer)
 
 def q10():
     # write a function that takes a list as an input, and calculates mean, median, and mode of those numbers,
     # and returns them.
+    
+    def mean(data_list):
+        sum = 0
+        for e in data_list:
+            sum += e
+        return sum / len(data_list)
+        
+    def mode(data_list):
+        unique_list = []
+        for val in data_list:
+            if val not in unique_list:
+                unique_list.append(val)
+        counts = [0] * len(unique_list)
+        for i in range(len(unique_list)):
+            for oth in data_list:
+                if unique_list[i] == oth:
+                    counts[i] += 1
+        maxIndex = 0
+        for k in range(len(counts)):
+            if counts[k] > counts[maxIndex]:
+                maxIndex = k
+        return unique_list[maxIndex]
+        
 
-    # your function definition here
+    def median(data_list):
+        if len(data_list) % 2 == 0:
+            return (data_list[int(len(data_list)/2)] + data_list[int(len(data_list)/2) + 1])/2
+        else:
+            return (data_list[int(len(data_list)/2)])
+
+    def stats(data_list):
+        return mean(data_list), median(data_list), mode(data_list)
+        
 
     data = [6,7,8,9,9,9,9,10,11,12]
-    mean = 0
-    median = 0
-    mode = 0
+    mean, median, mode = stats(data)
     # call the function here
     print("Question 10")
     print(mean, median, mode)

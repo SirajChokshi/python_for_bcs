@@ -74,7 +74,8 @@ d = 5
 # you just need to remember to include all the input arguments and returned values
 # write a line of code that calls the function above, and then print out the resulting four variables
 
-# YOUR CODE HERE
+w,x,y,z = some_complicated_function(a, b, c, d)
+print(w,x,y,z)
 
 # you will sometimes see it written that in Python, you can only return ONE value from a function. This is technically
 # true. When you do what I did above where the function returns four values, python is actually silently converting
@@ -110,4 +111,11 @@ variables you didnt want changed. To fix this problem, we would ideally rewrite 
 functions. Do so below.
 '''
 
-### YOUR CODE HERE
+def added(input1, input2, input3, input4):
+    return input1 + input2 + input3 + input4
+def subtract(input1, input2, input3, input4):
+    return input1 - input2 - input3 - input4
+def divide(input1, input2, input3, input4):
+    return input1 / input2 / input3 / input4
+def multiply(input1, input2, input3, input4):
+    return input1 * input2 * input3 * input4
