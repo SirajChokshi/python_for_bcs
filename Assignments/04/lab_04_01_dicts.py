@@ -1,4 +1,4 @@
-# dictionaries are like lists, except that:
+ # dictionaries are like lists, except that:
 #   - instead of a ORDERED sequence that you can access by it's number,
 #   - the information is stored as unordered KEY-VALUE pairs
 #   in the example below, the cities are the KEYS, and the populations are the VALUES
@@ -62,3 +62,17 @@ print(na_city_populations_dict.get(city_input))
 # they are from), and put's each animal into the dictionary as a key, with the location as it's value. have the function
 # return the dictionary. Outside the function, write a loop that that iterates
 # through the whole dictionary, printing them out one at a time.
+
+def getDictionaryFromFile(file):
+    dict = {}
+    for line in f:
+        data = line.strip('\n')
+        data = data.split(',')
+        dict[data[0]] = data[1]
+    return dict
+
+filename = 'test_file2.txt'
+f = open(filename)
+dict = getDictionaryFromFile(f)
+for key in dict:
+    print("{}: {}".format(key, dict[key]))

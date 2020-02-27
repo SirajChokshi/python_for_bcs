@@ -43,43 +43,66 @@ def get_song_lists():
 
 def get_all_lyrics(song_list_dict):
     all_lyrics_dict = {}
+    
+    for artist in song_list_dict:
+        temp_list = {}
+        for song in song_list_dict[artist]:
+            temp_list[song] = read_in_file(artist, song)
+        all_lyrics_dict[artist] = temp_list
+            
     # this function should create a dictionary of dictionaries!
     # the all_lyrics_dict should have the artists as the keys
     # each key should point to a dictionary that has the song title as the keys,
     #       pointing to a list of the words in the song
     # so you will need some loops that call the function read_in_file
-
     return all_lyrics_dict
 
 
 def read_in_file(artist, title):
-    lyric_list = []
-    # this function should use the input arguments to open the appropriate file
-    # read in the words and put them in lyric list
-    # make sure to do all the stripping and splitting you need to do.
-    # in addition, convert each word to lower case, and on each word, use strip to see if it has any of the following:
-    #   - ()
-    #   - ""
-    #   - ,
-    #  remove those from the word before adding the word to the list
-
+    lyric_list, temp_list = [[], []]
+    current_lyrics = open('{}/{}.txt'.format(artist, title)).read()
+    lines = current_lyrics.split('\n')
+    for line in lines:
+        temp_list.append(line.split(" "))
+    for line in temp_list:
+        for word in line:
+            word = remove_punctuation(word)
+            lyric_list.append(word)
     return lyric_list
+
+def remove_punctuation(phrase):
+    phrase = phrase.replace('(', '')
+    phrase = phrase.replace(')', '')
+    phrase = phrase.replace('"', '')
+    phrase = phrase.replace('.', '')
+    phrase = phrase.replace(',', '')
+    # phrase = phrase.replace("'", "")
+    phrase = phrase.replace('!', '')
+    phrase = phrase.lower()
+    return phrase
 
 
 def count_all_songs(all_lyrics_dict):
     all_freqs_dict = {}
+    
+    for artist in all_lyrics_dict:
+        temp_list = {}
+        for song in all_lyrics_dict[artist]:
+            temp_list[song] = count_single_song(all_lyrics_dict[artist][song])
+        all_freqs_dict[artist] = temp_list
+    
     # this function should replicate the structure of the all_lyrics_dict (a dictionary of dictionaries),
     # but instead of containing a list of the lyrics inside each inner dictionary,
-    # it should contain yet another dictionary, that counts the frequency of the words in each song.
-    '''
-    it should look like this when you are done:
-    freq_dicts = {"kanye": {"stronger": {"the": 32, "my", 21, "stronger": 32, ...},
-                            "power": {"the": 37, "my": 15, "stronger": 1, ...},
-                  "taylor": {"blank_space": {"the": 32, "my": 21, "blank": 5, ...},
-                            "me": {"the": 37, "my", 15, "blank": 2, ...}
-                  }
-    
-    '''
+    # # it should contain yet another dictionary, that counts the frequency of the words in each song.
+    # '''
+    # it should look like this when you are done:
+    # freq_dicts = {"kanye": {"stronger": {"the": 32, "my", 21, "stronger": 32, ...},
+    #                         "power": {"the": 37, "my": 15, "stronger": 1, ...},
+    #               "taylor": {"blank_space": {"the": 32, "my": 21, "blank": 5, ...},
+    #                         "me": {"the": 37, "my", 15, "blank": 2, ...}
+    #               }
+    # 
+    # '''
     # so once again you will need to loop over the structure of the all_lyrics_dict in order to create all_freqs_dict
     # have this loop call the count_single_song() function to get a dictionary for each song
     return all_freqs_dict
@@ -87,8 +110,14 @@ def count_all_songs(all_lyrics_dict):
 
 def count_single_song(song_word_list):
     freq_dict = {}
-    # this function should convert the current song's word list to a dictionary, with each key being a unique word,
-    # and each associated value being the frequency of that word
+    unique_set = set(song_word_list)
+    for key_word in unique_set:
+        count = 0
+        for other_word in song_word_list:
+            if key_word == other_word:
+                count += 1
+        freq_dict[key_word] = count
+
     return freq_dict
 
 
@@ -96,18 +125,32 @@ def count_all_types_and_tokens(all_freqs_dict):
     type_count_dict = {}
     token_count_dict = {}
     tt_ratio_dict = {}
-
+    
+    for artist in all_freqs_dict:
+        token_count_list = []
+        type_count_list = []
+        tt_ratio_list = []
+        for song in all_freqs_dict[artist]:
+            count_type, count_tokens, tt_ratio = count_song_types_and_tokens(all_freqs_dict[artist][song])
+            token_count_list.append(count_tokens)
+            type_count_list.append(count_type)
+            tt_ratio_list.append(tt_ratio)
+        token_count_dict[artist] = token_count_list
+        type_count_dict[artist] = type_count_list
+        tt_ratio_dict[artist] = tt_ratio_list
+    
     # this function should have three dictionaries, with artist as the key for each dictionary.
     # each dictionary key points to a list, whose length will be 5 (the number of songs)
     # token_count_dict contains counts of the number of total words in each song.
     # type_count_dict contains the number of unique words in each song.
     # tt_ratio_dict divides those values, telling us what proportion of each song's words are unique
-    # So for example (these numbers are made up, not the real oness:
+    # So for example (these numbers are made up, not the real ones):
     """
     token_count_dict = {'kanye': [421, 321, 234, 425, 315], 'taylor': [531, 354, 364, 225, 315]}
     type_count_dict = {'kanye': [34, 45, 21, 54, 25], 'taylor': [52, 32, 32, 45, 23]}
     tt_ratio_dict = {'kanye': [.085, .123, .098, .135, .083], 'taylor': [52, 32, 32, 45, 23]}
     """
+    
     return type_count_dict, token_count_dict, tt_ratio_dict
 
 
@@ -117,10 +160,28 @@ def count_song_types_and_tokens(song_freq_dict):
     num_types = 0
     num_tokens = 0
     tt_ratio = 0
+    
+    for word in song_freq_dict:
+        num_types += 1
+        num_tokens += song_freq_dict[word]
+    tt_ratio = num_types/num_tokens
+    
+        
     return num_types, num_tokens, tt_ratio
 
 
-def output_data(type_count_dict, token_count_dict, tt_ratio_dict):
+def output_data(type_count_dict, token_count_dict, tt_ratio_dict, song_list_dict):
+    print("\t\t\t\tNum_Types\tNum_Tokens\tTT_Ratio")
+    for artist in type_count_dict:
+        print(artist)
+        counter = 0
+        for song in song_list_dict[artist]:
+            num_types = type_count_dict[artist][counter]
+            num_tokens = token_count_dict[artist][counter]
+            tt_ratio = tt_ratio_dict[artist][counter]
+            print("\t{:24s}{:9d}\t{:10d}\t{:8f}".format(song, num_types, num_tokens, tt_ratio))
+            counter += 1
+    
     # this function should output the data in the following format, with the numbers filled in the appropriate spots
     """
                             Num_Types   Num_Tokens  TT_Ratio
@@ -145,6 +206,6 @@ def main():
     lyric_dict = get_all_lyrics(song_list_dict)
     all_freqs_dict = count_all_songs(lyric_dict)
     type_count_dict, token_count_dict, tt_ratio_dict = count_all_types_and_tokens(all_freqs_dict)
-    output_data(type_count_dict, token_count_dict, tt_ratio_dict)
+    output_data(type_count_dict, token_count_dict, tt_ratio_dict, song_list_dict)
 
 main()
