@@ -1,0 +1,59 @@
+The homework is the same as the lab. You only have to turn in one or the other.
+
+1. Open classify.py and make sure that the parameter settings are set to the following:
+        FILE_NAME = 'data/data3.csv'
+        TRAINING_PROPORTION = .75
+        NORMALIZE = False
+        SVD_DIM = 0
+        VERBOSE = True
+        WORD_LABELS = True
+        PLOT_SVDS = False
+        F1 = 0
+        F2 = 1
+        F_INDEX = 2
+        C_INDEX = 1
+        SIM = None
+
+        # KNN Parameters
+        DISTANCE_METRIC = 'cosine'
+        MIN_MAX_KNN = (1, 10)
+
+        # Logistic Regression Parameters
+        LEARNING_RATE = 0.1
+        NUM_EPOCHS = 1000
+        OUTPUT_FILE_NAME = 'log_reg_results.txt'
+
+    In the main function, make sure all the lines are commented out EXCEPT:
+        np.set_printoptions(precision=3)
+        random.seed(RANDOM_SEED)
+        np.random.seed(RANDOM_SEED)
+
+        my_data = dataset.Dataset(FILE_NAME, TRAINING_PROPORTION, NORMALIZE, SVD_DIM, VERBOSE)
+
+        my_logreg = lr.LogisticRegression(my_data, LEARNING_RATE, NUM_EPOCHS, VERBOSE, OUTPUT_FILE_NAME)
+        my_logreg.train()
+        my_logreg.test()
+
+    Run classify.py and explain the output that you observe. If you cannot understand some of the output, look at the
+    code, talk with your group, and ask the professor and/or TA.
+
+2. Now uncomment the K-Nearest Neighbor code and run that at the same time. Compare the performance of two algorithms.
+    Which one does better on our dataset? What are specific examples of words that the better model gets right that the
+    other model gets wrong? Can you use any of the figures to better justify your answer?
+
+3. Now change the NORMALIZE parameter to True, and re-run the program. Without running the program, hypothesize how
+    normalization should affect the KNN and Logistic Regression algorithms. When you have answered that, run the
+    program and compare the results to your hypothesis. Was it correct? Why or why not? What do you conclude about the
+    effect of normalizing the data?
+
+4. Now change the TRAINING_PROPORTION parameter to 0.20, and re-run the program. Without running the program,
+    hypothesize how training proportion should affect the KNN and Logistic Regression algorithms. When you have answered
+    that, run the program and compare the results to your hypothesis. Was it correct? Why or why not? What do you
+    conclude about the effect of training proportion.
+
+5. In what way would the dataset have to be different to maximize the performance of the KNN algorithm, and most hurt
+    the performance of the logistic regression algorithm? Think about how the two are different, and what kinds of data
+    are good and bad for each one. Then reverse the question, what kind of data would be best for logistic regression,
+    and worst for KNN?
+
+
